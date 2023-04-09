@@ -9,7 +9,7 @@ import PostList from "../components/PostList.vue";
 import PostDetails from "../components/PostDetails.vue";
 import CategoryList from "../components/CategoryList.vue";
 import CategoryDetails from "../components/CategoryDetails.vue";
-import HomePage from "../components/HomePage.vue";
+import Home from "../views/Home.vue";
 
 const routes = [
   // {
@@ -77,7 +77,7 @@ const routes = [
    {
     path: "/home",
     name: "home",
-    component: HomePage,
+    component: Home,
   },
 ];
 
