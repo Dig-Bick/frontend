@@ -34,10 +34,10 @@ export default {
       posts: [],
     };
   },
-  async created() {
-    const response = await axios.get("/api/postManagement/posts");
-    this.posts = response.data.records;
-  },
+ async mounted() {
+  const response = await axios.get("/api/postManagement/posts");
+  this.posts = response.data.records;
+},
   methods: {
     async editPost(post) {
       this.$router.push(`/management/post/edit/${post.id}`); // TODO: Implement the edit functionality

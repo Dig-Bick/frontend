@@ -14,7 +14,7 @@
         </el-card>
       </el-col>
       <el-col :span="12">
-        <el-card class="box-card">
+        <el-card class="box-card" @click.native="$router.push('/management/post')">
           <div slot="header" class="clearfix">
             <span>贴子管理</span>
           </div>
