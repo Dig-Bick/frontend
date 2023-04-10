@@ -26,7 +26,9 @@
 </template>
 
 <script>
-import axios from "axios";
+
+import axios from "@/axiosConfig.js";
+
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
 
 export default {
