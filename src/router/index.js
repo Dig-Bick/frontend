@@ -10,6 +10,8 @@ import PostDetails from "../components/PostDetails.vue";
 import CategoryList from "../components/CategoryList.vue";
 import CategoryDetails from "../components/CategoryDetails.vue";
 import Home from "../views/Home.vue";
+import PostManagement from "@/views/PostManagement.vue";
+import EditPost from "@/views/EditPost.vue";
 
 const routes = [
   // {
@@ -78,6 +80,18 @@ const routes = [
     path: "/home",
     name: "home",
     component: Home,
+  },
+  {
+    path: "/management/post",
+    name: "PostManagement",
+    component: PostManagement,
+    meta: { requiresAuth: true, isAdmin: true },
+  },
+  {
+    path: "/management/post/edit/:postId",
+    name: "EditPost",
+    component: EditPost,
+    meta: { requiresAuth: true, isAdmin: true },
   },
 ];
 

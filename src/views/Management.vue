@@ -1,5 +1,9 @@
 <template>
   <div class="management">
+    <div class="management-options">
+      <router-link to="/management/user">User Management</router-link>
+      <router-link to="/management/post">Post Management</router-link>
+  </div>
     <h1>管理中心</h1>
     <el-row>
       <el-col :span="12">
