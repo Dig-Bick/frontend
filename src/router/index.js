@@ -93,6 +93,11 @@ const routes = [
     component: EditPost,
     meta: { requiresAuth: true, isAdmin: true },
   },
+  {
+  path: '/management/user',
+  name: 'UserManagement',
+  component: UserManagement
+}
 ];
 
 const router = createRouter({
@@ -110,4 +115,5 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
+
 export default router;
