@@ -26,8 +26,12 @@ export default {
     };
   },
   async mounted() {
-    const userId = 1; // Replace this with the actual user ID
-    const postsResponse = await axios.get(`/api/posts/recommend?userId=${userId}`);
+    const userId = 2; // Replace this with the actual user ID
+    const postsResponse = await axios.get(`/api/posts/recommended`, {
+      params: {
+        userId: userId,
+      },
+    });
     this.recommendedPosts = postsResponse.data;
 
     const categoriesResponse = await axios.get("/api/categories/all");
