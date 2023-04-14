@@ -7,35 +7,41 @@
       </li>
     </ul>
     <h2>Categories</h2>
-    <ul>
-      <li v-for="category in categories" :key="category.category_id">
-        {{ category.name }}
-      </li>
-    </ul>
+    <category-list></category-list>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import CategoryList from "@/components/CategoryList.vue";
+
 
 export default {
+  components: {
+    CategoryList,
+  },
   data() {
     return {
       recommendedPosts: [],
-      categories: [],
     };
   },
   async mounted() {
-    const userId = 2; // Replace this with the actual user ID
-    const postsResponse = await axios.get(`/api/posts/recommended`, {
-      params: {
-        userId: userId,
-      },
-    });
-    this.recommendedPosts = postsResponse.data;
-
-    const categoriesResponse = await axios.get("/api/categories/all");
-    this.categories = categoriesResponse.data;
+    if (this.$store.state.user && this.$store.state.user.id) {
+      this.fetchRecommendedPosts();
+    }
+  },
+  methods: {
+    async fetchRecommendedPosts() {
+      try {
+        const response = await axios.get("/api/posts/recommended", {
+          params: { userId: this.$store.state.user.id },
+          headers: { Authorization: "Bearer " + this.$store.state.user.token },
+        });
+        this.recommendedPosts = response.data;
+      } catch (error) {
+        console.error("Error fetching recommended posts: ", error);
+      }
+    },
   },
 };
 </script>
