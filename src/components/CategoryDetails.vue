@@ -12,9 +12,23 @@
 </template>
 
 <script>
+import { watch, ref } from "vue";
+import { useRoute } from "vue-router";
 import axios from "axios";
 
 export default {
+  setup() {
+    const route = useRoute();
+    const id = ref(route.params.id);
+
+    watch(route.params, (newParams) => {
+      id.value = newParams.id;
+    });
+
+    return {
+      id,
+    };
+  },
   data() {
     return {
       category: {},
@@ -22,16 +36,16 @@ export default {
     };
   },
   async created() {
-  try {
-    const categoryId = this.$route.params.id;
-    const categoryResponse = await axios.get(`/api/categories/${categoryId}`);
-    this.category = categoryResponse.data;
+    try {
+      const categoryId = this.id;
+      const categoryResponse = await this.$http.get(`/categories/${categoryId}`);
+      this.category = categoryResponse.data;
 
-    const postsResponse = await axios.get(`/api/categories/${categoryId}/posts`);
-    this.posts = postsResponse.data;
-  } catch (error) {
-    console.error(error);
-  }
-},
+      const postsResponse = await this.$http.get(`/categories/${categoryId}/posts`);
+      this.posts = postsResponse.data;
+    } catch (error) {
+      console.error(error);
+    }
+  },
 };
 </script>

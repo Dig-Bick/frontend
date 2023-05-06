@@ -2,8 +2,8 @@
   <div>
     <h2>板块列表</h2>
     <ul>
-      <li v-for="category in categories" :key="category.id">
-        <router-link :to="{ name: 'category-details', params: { id: category.id } }">
+      <li v-for="category in categories" :key="String(category.id)">
+        <router-link :to="{ name: 'category-details', params: { id: String(category.id) } }">
           {{ category.name }}
         </router-link>
       </li>
@@ -22,7 +22,7 @@ export default {
   },
   async created() {
     try {
-      const response = await axios.get("/api/categories");
+      const response = await this.$http.get("/categories/all");
       this.categories = response.data;
     } catch (error) {
       console.error(error);
