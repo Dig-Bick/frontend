@@ -1,25 +1,38 @@
 import { createStore } from 'vuex';
+import axios from 'axios';
 
 export default createStore({
   state: {
-    // 添加一个状态属性以存储用户令牌
     token: null,
-  },
-  getters: {
-    // ...
+    userId: null, // 添加 userId 属性
   },
   mutations: {
-    // 添加一个mutation以处理登录操作
-    login(state, payload) {
-      state.token = payload.token;
-      localStorage.setItem('token', payload.token);
+    setToken(state, token) {
+      state.token = token;
     },
-    // ...
+    setUserId(state, userId) { // 添加 setUserId 方法
+      state.userId = userId;
+    },
+    logout(state) {
+      state.token = "";
+      state.userId = null;
+    },
   },
   actions: {
-    // ...
+    async login({ commit }, { username, password }) {
+      try {
+        const response = await axios.post("/api/login", { username, password });
+        commit("setToken", response.data.token);
+        commit("setUserId", response.data.userId);
+        return true;
+      } catch (error) {
+        if (error.response && error.response.status === 400) {
+          throw new Error(error.response.data.error);
+        } else {
+          throw new Error("登录失败，请稍后再试");
+        }
+      }
+    },
   },
-  modules: {
-    // ...
-  },
+  modules: {},
 });

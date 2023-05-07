@@ -42,6 +42,7 @@ export default {
       this.$http
         .post("/api/login", this.loginForm)
         .then((response) => {
+        console.log(response);
           if (response.status === 200) {
             // 存储 token 和角色信息到 localStorage
             localStorage.setItem("token", response.data.token);
