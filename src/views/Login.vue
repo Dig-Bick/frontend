@@ -20,6 +20,7 @@
 
 <script>
 import { useRouter } from 'vue-router';
+import jwt_decode from "jwt-decode";
 
 export default {
   setup() {
@@ -38,31 +39,29 @@ export default {
     };
   },
   methods: {
-    submitForm() {
-      this.$http
-        .post("/api/login", this.loginForm)
-        .then((response) => {
-        console.log(response.data);
-          if (response.status === 200) {
-            // 存储 token 和角色信息到 localStorage
-            localStorage.setItem("token", response.data.token);
-            localStorage.setItem("userId", response.data.userId);
-            console.log(localStorage.getItem("token"), localStorage.getItem("userId"))
-            console.log(response.data.token, String(response.data.userId));
+ submitForm() {
+  this.$http
+    .post("/api/login", this.loginForm)
+    .then((response) => {
+      if (response.status === 200) {
+        const token = response.data.token;
+        const decoded = jwt_decode(token);
+        const userId = decoded.userId;
 
+        localStorage.setItem("token", token);
+        localStorage.setItem("userId", userId);
+        this.$store.dispatch("setToken", token);
+        this.$store.dispatch("setUserId", userId);
 
-            // 根据角色重定向到相应的页面
-
-              this.router.push({ name: "home" }); // 修改为跳转到论坛首页
-
-          }
-        })
-        .catch((error) => {
-          if (error.response.status === 400) {
-            this.$message.error(error.response.data.error);
-          }
-        });
-    },
+        this.router.push({ name: "home" });
+      }
+    })
+    .catch((error) => {
+      if (error.response.status === 400) {
+        this.$message.error(error.response.data.error);
+      }
+    });
+},
     goToRegister() {
       this.router.push("/register");
     },
