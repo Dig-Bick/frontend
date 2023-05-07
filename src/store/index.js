@@ -1,38 +1,28 @@
-import { createStore } from 'vuex';
-import axios from 'axios';
+import { createStore } from "vuex";
 
 export default createStore({
   state: {
     token: null,
-    userId: null, // 添加 userId 属性
+    userId: null,
   },
   mutations: {
     setToken(state, token) {
       state.token = token;
     },
-    setUserId(state, userId) { // 添加 setUserId 方法
+    setUserId(state, userId) {
       state.userId = userId;
-    },
-    logout(state) {
-      state.token = "";
-      state.userId = null;
     },
   },
   actions: {
-    async login({ commit }, { username, password }) {
-      try {
-        const response = await axios.post("/api/login", { username, password });
-        commit("setToken", response.data.token);
-        commit("setUserId", response.data.userId);
-        return true;
-      } catch (error) {
-        if (error.response && error.response.status === 400) {
-          throw new Error(error.response.data.error);
-        } else {
-          throw new Error("登录失败，请稍后再试");
-        }
-      }
+    setToken({ commit }, token) {
+      commit("setToken", token);
+    },
+    setUserId({ commit }, userId) {
+      commit("setUserId", userId);
     },
   },
-  modules: {},
+  getters: {
+    token: (state) => state.token,
+    userId: (state) => state.userId,
+  },
 });

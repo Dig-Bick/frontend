@@ -68,6 +68,8 @@ async created() {
   methods: {
     async createPost() {
       const userId = localStorage.getItem("userId");
+      //const userId = this.$store.getters.userId;
+      //console.log("userId from Vuex store:", userId);
       console.log(localStorage.getItem("token"), localStorage.getItem("userId"))
       try {
         const response = await this.$http.post("/api/posts", {
