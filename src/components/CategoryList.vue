@@ -2,8 +2,8 @@
   <div>
     <h2>板块列表</h2>
     <ul>
-      <li v-for="category in categories" :key="String(category.id)">
-        <router-link :to="{ name: 'category-details', params: { id: String(category.id) } }">
+      <li v-for="category in categories" :key="String(category.categoryId)">
+        <router-link :to="{ name: 'category-details', params: { categoryId: Number(category.categoryId) } }">
           {{ category.name }}
         </router-link>
       </li>
@@ -23,6 +23,13 @@ export default {
   async created() {
     try {
       const response = await this.$http.get("/categories/all");
+      console.log(response.data);
+      // 检查数据
+    response.data.forEach((category) => {
+      if (typeof category.categoryId !== "number" || isNaN(category.categoryId)) {
+        console.error("Invalid category ID:", category.categoryId);
+      }
+    });
       this.categories = response.data;
     } catch (error) {
       console.error(error);

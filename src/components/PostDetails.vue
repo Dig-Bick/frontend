@@ -16,7 +16,7 @@ export default {
   },
   async created() {
     try {
-      const response = await axios.get(`/api/posts/${this.$route.params.id}`);
+      const response = await this.$http.get(`/api/posts/${this.$route.params.id}`);
       this.post = response.data;
     } catch (error) {
       console.error(error);

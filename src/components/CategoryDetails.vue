@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h2>{{ category.name }}</h2>
+    <h2>{{ category.name }} 帖子列表</h2>
     <ul>
       <li v-for="post in posts" :key="post.id">
-        <router-link :to="{ name: 'post-details', params: { id: post.id } }">
+        <router-link :to="{ name: 'post-details', params: { id: post.postId } }">
           {{ post.title }}
         </router-link>
       </li>
@@ -12,39 +12,36 @@
 </template>
 
 <script>
-import { watch, ref } from "vue";
-import { useRoute } from "vue-router";
 import axios from "axios";
 
 export default {
-  setup() {
-    const route = useRoute();
-    const id = ref(route.params.id);
-
-    watch(route.params, (newParams) => {
-      id.value = newParams.id;
-    });
-
-    return {
-      id,
-    };
+  props: {
+    categoryId: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {
-      category: {},
       posts: [],
+      category: {},
     };
   },
   async created() {
+    console.log("Category ID:", this.categoryId);
     try {
-      const categoryId = this.id;
-      const categoryResponse = await this.$http.get(`/categories/${categoryId}`);
-      this.category = categoryResponse.data;
+      const [postsResponse, categoryResponse] = await Promise.all([
+        this.$http.get(`/categories/${this.categoryId}/posts`),
+        this.$http.get(`/categories/${this.categoryId}`),
+      ]);
 
-      const postsResponse = await this.$http.get(`/categories/${categoryId}/posts`);
       this.posts = postsResponse.data;
+      this.category = categoryResponse.data;
     } catch (error) {
       console.error(error);
+    }
+      if (this.posts.length > 0) {
+      console.log("First post data:", this.posts[0]);
     }
   },
 };

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Login from '@/views/Login.vue';
 import Register from '@/views/Register.vue';
-import UserManagement from '@/views/UserManagement.vue'; // 引入用户管理页面组件
+import UserManagement from '@/views/UserManagement.vue';
 import AdminLogin from '@/views/AdminLogin.vue';
 import AdminRegister from '@/views/AdminRegister.vue';
 import Management from '@/views/Management.vue';
@@ -14,17 +14,6 @@ import PostManagement from "@/views/PostManagement.vue";
 import EditPost from "@/views/EditPost.vue";
 
 const routes = [
-  // {
-  //   path: '/',
-  //   name: 'home',
-  //   component: HomeView,
-  // },
-  // {
-  //   path: '/about',
-  //   name: 'about',
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
-  // },
   {
     path: '/login',
     name: 'Login',
@@ -35,28 +24,27 @@ const routes = [
     name: 'Register',
     component: Register,
   },
-  // 添加用户管理页面路由
   {
     path: '/user-management',
     name: 'UserManagement',
     component: UserManagement,
   },
   {
-  path: '/admin-login',
-  name: 'AdminLogin',
-  component: AdminLogin,
-},
-{
-  path: '/admin-register',
-  name: 'AdminRegister',
-  component: AdminRegister,
-},
-{
-  path: '/management',
-  name: 'Management',
-  component: Management,
-},
-{
+    path: '/admin-login',
+    name: 'AdminLogin',
+    component: AdminLogin,
+  },
+  {
+    path: '/admin-register',
+    name: 'AdminRegister',
+    component: AdminRegister,
+  },
+  {
+    path: '/management',
+    name: 'Management',
+    component: Management,
+  },
+  {
     path: "/posts",
     name: "post-list",
     component: PostList,
@@ -72,11 +60,12 @@ const routes = [
     component: CategoryList,
   },
   {
-    path: "/categories/:id",
+    path: "/categories/:categoryId",
     name: "category-details",
     component: CategoryDetails,
+    props: true
   },
-   {
+  {
     path: "/home",
     name: "home",
     component: Home,
@@ -93,7 +82,6 @@ const routes = [
     component: EditPost,
     meta: { requiresAuth: true, isAdmin: true },
   },
-
 ];
 
 const router = createRouter({
