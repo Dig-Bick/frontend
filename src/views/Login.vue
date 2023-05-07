@@ -45,6 +45,9 @@ export default {
           if (response.status === 200) {
             // 存储 token 和角色信息到 localStorage
             localStorage.setItem("token", response.data.token);
+            localStorage.setItem("userId", String(response.data.userId));
+            console.log(localStorage.getItem("token"), localStorage.getItem("userId"))
+            console.log(response.data.token, String(response.data.userId));
 
 
             // 根据角色重定向到相应的页面
