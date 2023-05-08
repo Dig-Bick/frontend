@@ -3,7 +3,9 @@
     <h2>Recommended Posts</h2>
     <ul>
       <li v-for="post in recommendedPosts" :key="post.post_id">
-        {{ post.title }}
+        <router-link :to="{ name: 'post-details', params: { id: post.postId } }">
+          {{ post.title }}
+        </router-link>
       </li>
     </ul>
     <h2>Categories</h2>
@@ -26,16 +28,22 @@ export default {
     };
   },
   async mounted() {
-    if (this.$store.state.user && this.$store.state.user.id) {
-      this.fetchRecommendedPosts();
+    if (this.$store.state.userId && this.$store.state.token) {
+
+      console.log('Fetching recommended posts...'); // 添加调试输出
+      await this.fetchRecommendedPosts();
+    } else {
+      console.log('User not logged in, not fetching recommended posts.'); // 添加调试输出
     }
-  },
+  }
+,
   methods: {
     async fetchRecommendedPosts() {
       try {
-        const response = await axios.get("/api/posts/recommended", {
-          params: { userId: this.$store.state.user.id },
-          headers: { Authorization: "Bearer " + this.$store.state.user.token },
+        const response = await this.$http.get("/api/posts/recommended", {
+            params: { userId: this.$store.state.userId },
+            headers: { Authorization: "Bearer " + this.$store.state.token },
+
         });
         this.recommendedPosts = response.data;
       } catch (error) {
