@@ -3,7 +3,8 @@
     <h3>Comments</h3>
     <ul>
       <li v-for="comment in comments" :key="comment.id">
-        <strong>{{ comment.author }}</strong>: {{ comment.content }}
+        <strong>{{ comment.username }}</strong>: {{ comment.content }}
+
       </li>
     </ul>
     <div class="comment-form">
@@ -25,13 +26,13 @@ export default {
   },
   methods: {
     async fetchComments() {
-      try {
-        const response = await this.$http.get(`/api/comments/${this.postId}`);
-        this.comments = response.data;
-      } catch (error) {
-        console.error("Error fetching comments:", error);
-        this.$message.error("Error fetching comments.");
-      }
+        try {
+            const response = await this.$http.get(`/api/comments/${this.postId}`);
+            this.comments = response.data;
+        } catch (error) {
+            console.error("Error fetching comments:", error);
+            this.$message.error("Error fetching comments.");
+        }
     },
     async submitComment() {
       if (!this.newComment) {
