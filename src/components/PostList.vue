@@ -6,10 +6,12 @@
         <router-link :to="{ name: 'post-details', params: { id: post.postId } }">
           {{ post.title }}
         </router-link>
+        <span>点赞数量: {{ post.likeCount }}</span>
       </li>
     </ul>
   </div>
 </template>
+
 
 <script>
 import axios from "axios";
