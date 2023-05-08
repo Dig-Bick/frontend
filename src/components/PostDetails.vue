@@ -8,13 +8,18 @@
       </button>
       <span>{{ likeCount }} 赞</span>
     </div>
+    <comment-section :postId="post.postId"></comment-section> <!-- 添加这一行 -->
   </div>
 </template>
 
+
 <script>
 import axios from "axios";
-
+import CommentSection from "@/components/CommentSection.vue";
 export default {
+components: {
+CommentSection,
+},
   data() {
     return {
       post: {},
