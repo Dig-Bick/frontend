@@ -2,9 +2,9 @@
   <div>
     <h3>Comments</h3>
     <ul>
-      <li v-for="comment in comments" :key="comment.id">
+      <li v-for="comment in comments" :key="comment.commentId">
         <strong>{{ comment.username }}</strong>: {{ comment.content }}
-
+        <reply-form :postId="postId" :commentId="comment.commentId"></reply-form>
       </li>
     </ul>
     <div class="comment-form">
@@ -16,7 +16,11 @@
 </template>
 
 <script>
+import ReplyForm from "./ReplyForm.vue";
 export default {
+  components: {
+    ReplyForm,
+  },
   props: ["postId"],
   data() {
     return {

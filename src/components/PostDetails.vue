@@ -8,7 +8,7 @@
       </button>
       <span>{{ likeCount }} 赞</span>
     </div>
-    <comment-section :postId="post.postId"></comment-section> <!-- 添加这一行 -->
+    <comment-section :postId="post.postId"></comment-section>
   </div>
 </template>
 
