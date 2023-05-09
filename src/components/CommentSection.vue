@@ -2,16 +2,13 @@
   <div>
     <h3>Comments</h3>
     <ul>
-      <li v-for="comment in comments" :key="comment.commentId">
-        <strong>{{ comment.username }}</strong>: {{ comment.content }}
-        <button @click="showReplyForm(comment.commentId)">Reply</button>
-        <reply-form
-          v-if="comment.commentId === replyFormCommentId"
-          :postId="postId"
-          :commentId="comment.commentId"
-          @reply-created="onReplyCreated"
-        ></reply-form>
-      </li>
+      <comment-item
+        v-for="comment in comments"
+        :key="comment.commentId"
+        :comment="comment"
+        :postId="postId"
+        @reply-created="onReplyCreated"
+      ></comment-item>
     </ul>
     <div class="comment-form">
       <h4>Add a comment</h4>
@@ -23,9 +20,12 @@
 
 <script>
 import ReplyForm from "./ReplyForm.vue";
+import CommentItem from "./CommentItem.vue";
+
 export default {
   components: {
     ReplyForm,
+    CommentItem,
   },
   props: ["postId"],
   data() {
@@ -94,4 +94,7 @@ export default {
 .comment-form {
   margin-top: 1rem;
 }
+  .reply {
+    margin-left: 2rem;
+  }
 </style>
