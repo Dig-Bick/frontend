@@ -10,6 +10,10 @@
         :commentId="comment.commentId"
         @reply-created="onReplyCreated"
       ></reply-form>
+      <!-- CommentItem.vue -->
+      <button v-if="isOwnComment" @click="deleteComment(comment.commentId)">Delete</button>
+
+
     </div>
     <ul v-if="comment.replies && comment.replies.length">
       <li v-for="reply in comment.replies" :key="reply.commentId">
@@ -26,6 +30,7 @@ export default {
   props: {
     comment: Object,
     postId: Number,
+    userId: [Number, String],
     depth: {
       type: Number,
       default: 0,
@@ -39,6 +44,13 @@ export default {
       replyFormCommentId: null,
     };
   },
+  computed: {
+  isOwnComment() {
+  const userIdd = localStorage.getItem("userId");
+  console.log(this.userId,this.comment.userId,userIdd)
+    return String(userIdd) === String(this.comment.userId);
+  },
+},
   methods: {
     showReplyForm(commentId) {
       this.replyFormCommentId = commentId;
@@ -47,6 +59,17 @@ export default {
       this.$emit('reply-created', reply);
       this.replyFormCommentId = null;
     },
+    async deleteComment(commentId) {
+      try {
+        await this.$http.delete(`/api/comments/${commentId}`);
+        this.$emit("comment-deleted");
+      } catch (error) {
+        console.error("Error deleting comment:", error);
+        this.$message.error("Error deleting comment.");
+      }
+    },
+
+
   },
 };
 </script>

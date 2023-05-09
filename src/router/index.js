@@ -82,6 +82,13 @@ const routes = [
     component: EditPost,
     meta: { requiresAuth: true, isAdmin: true },
   },
+  {
+  path: "/user/:userId/posts",
+  name: "UserPosts",
+  component: () =>
+    import(/* webpackChunkName: "userPosts" */ "../views/UserPosts.vue"),
+  },
+
 ];
 
 const router = createRouter({

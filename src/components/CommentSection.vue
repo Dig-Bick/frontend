@@ -1,15 +1,17 @@
 <template>
   <div>
     <h3>Comments</h3>
-    <ul>
+    <div>
       <comment-item
         v-for="comment in comments"
         :key="comment.commentId"
         :comment="comment"
         :postId="postId"
+        :userId="userId"
         @reply-created="onReplyCreated"
+        @comment-deleted="fetchComments"
       ></comment-item>
-    </ul>
+    </div>
     <div class="comment-form">
       <h4>Add a comment</h4>
       <textarea v-model="newComment" rows="3"></textarea>
@@ -18,6 +20,9 @@
   </div>
 </template>
 
+
+
+// CommentSection.vue
 <script>
 import ReplyForm from "./ReplyForm.vue";
 import CommentItem from "./CommentItem.vue";
@@ -27,7 +32,7 @@ export default {
     ReplyForm,
     CommentItem,
   },
-  props: ["postId"],
+  props: ["postId", "userId"],
   data() {
     return {
       comments: [],
@@ -76,6 +81,15 @@ export default {
       this.replyFormCommentId = null;
       this.fetchComments();
     },
+    async deleteComment(commentId) {
+      try {
+        await this.$http.delete(`/api/comments/${commentId}`);
+        this.fetchComments();
+      } catch (error) {
+        console.error("Error deleting comment:", error);
+        this.$message.error("Error deleting comment.");
+      }
+    },
   },
   watch: {
     postId: {
@@ -89,6 +103,8 @@ export default {
   },
 };
 </script>
+
+
 
 <style scoped>
 .comment-form {

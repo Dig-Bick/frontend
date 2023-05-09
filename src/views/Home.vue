@@ -10,7 +10,10 @@
     </ul>
     <h2>Categories</h2>
     <category-list></category-list>
+    <button v-if="userId" @click="goToUserPosts">View Your Posts</button>
   </div>
+
+
 </template>
 
 <script>
@@ -25,6 +28,7 @@ export default {
   data() {
     return {
       recommendedPosts: [],
+      userId: this.$store.state.userId,
     };
   },
   async mounted() {
@@ -49,6 +53,9 @@ export default {
       } catch (error) {
         console.error("Error fetching recommended posts: ", error);
       }
+    },
+    goToUserPosts() {
+      this.$router.push(`/user/${this.userId}/posts`);
     },
   },
 };
