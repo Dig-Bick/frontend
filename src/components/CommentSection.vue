@@ -4,7 +4,13 @@
     <ul>
       <li v-for="comment in comments" :key="comment.commentId">
         <strong>{{ comment.username }}</strong>: {{ comment.content }}
-        <reply-form :postId="postId" :commentId="comment.commentId"></reply-form>
+        <button @click="showReplyForm(comment.commentId)">Reply</button>
+        <reply-form
+          v-if="comment.commentId === replyFormCommentId"
+          :postId="postId"
+          :commentId="comment.commentId"
+          @reply-created="onReplyCreated"
+        ></reply-form>
       </li>
     </ul>
     <div class="comment-form">
@@ -26,17 +32,18 @@ export default {
     return {
       comments: [],
       newComment: "",
+      replyFormCommentId: null,
     };
   },
   methods: {
     async fetchComments() {
-        try {
-            const response = await this.$http.get(`/api/comments/${this.postId}`);
-            this.comments = response.data;
-        } catch (error) {
-            console.error("Error fetching comments:", error);
-            this.$message.error("Error fetching comments.");
-        }
+      try {
+        const response = await this.$http.get(`/api/comments/${this.postId}`);
+        this.comments = response.data;
+      } catch (error) {
+        console.error("Error fetching comments:", error);
+        this.$message.error("Error fetching comments.");
+      }
     },
     async submitComment() {
       if (!this.newComment) {
@@ -56,11 +63,18 @@ export default {
           content: this.newComment,
         });
         this.newComment = "";
-        await this.fetchComments(); // 添加这一行
+        await this.fetchComments();
       } catch (error) {
         console.error("Error submitting comment:", error);
         this.$message.error("Error submitting comment.");
       }
+    },
+    showReplyForm(commentId) {
+      this.replyFormCommentId = commentId;
+    },
+    onReplyCreated() {
+      this.replyFormCommentId = null;
+      this.fetchComments();
     },
   },
   watch: {
