@@ -10,20 +10,19 @@
     </ul>
     <h2>Categories</h2>
     <category-list></category-list>
+    <notification-list v-if="userId"></notification-list>
     <button v-if="userId" @click="goToUserPosts">View Your Posts</button>
   </div>
-
-
 </template>
-
 <script>
 import axios from "axios";
 import CategoryList from "@/components/CategoryList.vue";
-
+import NotificationList from "@/components/NotificationList.vue";
 
 export default {
   components: {
     CategoryList,
+    NotificationList,
   },
   data() {
     return {
