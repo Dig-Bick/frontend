@@ -1,5 +1,19 @@
 <template>
   <div>
+
+    <form @submit.prevent="searchPosts">
+        <input type="text" v-model="searchQuery" placeholder="Search for posts..." />
+        <button type="submit">Search</button>
+    </form>
+    <h2>Search Results</h2>
+      <ul>
+        <li v-for="post in posts" :key="post.postId">
+          <router-link :to="{ name: 'post-details', params: { id: post.postId } }">
+            {{ post.title }}
+          </router-link>
+        </li>
+      </ul>
+
     <h2>Recommended Posts</h2>
     <ul>
       <li v-for="post in recommendedPosts" :key="post.post_id">
@@ -28,6 +42,8 @@ export default {
     return {
       recommendedPosts: [],
       userId: this.$store.state.userId,
+      searchQuery: "",
+      posts: [],
     };
   },
   async mounted() {
@@ -55,6 +71,18 @@ export default {
     },
     goToUserPosts() {
       this.$router.push(`/user/${this.userId}/posts`);
+    },
+    searchPosts() {
+        axios
+            .get("http://localhost:8080/api/posts/search", {
+                params: { query: this.searchQuery },
+            })
+            .then((response) => {
+                this.posts = response.data;
+            })
+            .catch((error) => {
+                console.error("Error searching posts:", error);
+            });
     },
   },
 };
