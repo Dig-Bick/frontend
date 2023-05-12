@@ -1,25 +1,25 @@
 <template>
-  <div>
+  <div class="dark-souls-container">
     <h2>{{ post.title }}</h2>
     <p>{{ post.content }}</p>
     <div class="post-actions">
-      <button @click="toggleLike" class="like-button">
+      <button @click="toggleLike" class="dark-souls-like-button">
         {{ isLiked ? '取消点赞' : '点赞' }}
       </button>
-      <span>{{ likeCount }} 赞</span>
+      <span class="dark-souls-like-count">{{ likeCount }} 赞</span>
     </div>
     <comment-section :postId="post.postId"></comment-section>
   </div>
 </template>
 
-
 <script>
 import axios from "axios";
 import CommentSection from "@/components/CommentSection.vue";
+
 export default {
-components: {
-CommentSection,
-},
+  components: {
+    CommentSection,
+  },
   data() {
     return {
       post: {},
@@ -64,7 +64,6 @@ CommentSection,
         console.error("Error fetching like status and count:", error);
       }
     },
-
   },
   async created() {
     try {
@@ -79,3 +78,29 @@ CommentSection,
   },
 };
 </script>
+
+<style scoped>
+.dark-souls-container {
+  background-color: #111;
+  color: #fff;
+  padding: 20px;
+}
+
+.dark-souls-container h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.dark-souls-like-button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.dark-souls-like-count {
+  color: #aaa;
+  margin-left: 10px;
+}
+</style>
