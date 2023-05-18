@@ -2,16 +2,23 @@
   <el-container class="dark-souls-container" direction="vertical">
     <!-- Search Box -->
     <el-header class="dark-souls-header">
-      <el-form @submit.native.prevent="searchPosts" inline>
-        <el-row :gutter="10">
-          <el-col :span="18">
-            <el-input v-model="searchQuery" placeholder="Search for posts..." size="small" class="dark-souls-input" />
-          </el-col>
-          <el-col :span="6" class="search-button-col">
-            <el-button type="primary" @click="searchPosts" size="small" class="dark-souls-button">搜索</el-button>
-          </el-col>
-        </el-row>
-      </el-form>
+      <el-row :gutter="10">
+        <el-col :span="4">
+          <el-button type="primary" @click="goToUserMsg" size="small" class="dark-souls-button">个人信息</el-button>
+        </el-col>
+        <el-col :span="20">
+          <el-form @submit.native.prevent="searchPosts" inline>
+            <el-row :gutter="10">
+              <el-col :span="22">
+                <el-input v-model="searchQuery" placeholder="Search for posts..." size="small" class="dark-souls-input" />
+              </el-col>
+              <el-col :span="2" class="search-button-col">
+                <el-button type="primary" @click="searchPosts" size="small" class="dark-souls-button">搜索</el-button>
+              </el-col>
+            </el-row>
+          </el-form>
+        </el-col>
+      </el-row>
     </el-header>
     <!-- Categories -->
     <el-main>
@@ -24,7 +31,7 @@
         <el-col :span="16">
           <el-card class="dark-souls-card">
             <div slot="header" class="dark-souls-card-header">
-              <span class="dark-souls-card-title">Recommended Posts</span>
+              <span class="dark-souls-card-title">推荐帖子</span>
             </div>
             <el-table
               :data="displayedRecommendedPosts"
@@ -46,21 +53,29 @@
           </el-card>
         </el-col>
         <!-- Search Results and Notifications -->
-        <el-col :span="8">
-          <h2 class="dark-souls-search-results">Search Results</h2>
-          <el-table
-            :data="posts"
-            style="width: 100%"
-            border
-            @row-click="postClicked"
-            class="dark-souls-table"
-          >
-            <el-table-column prop="title" label="Title" />
-          </el-table>
-          <notification-list v-if="userId"></notification-list>
+         <el-col :span="8">
+
+    <el-table
+      :data="displayedPosts"
+      style="width: 100%"
+      border
+      @row-click="postClicked"
+      class="dark-souls-table"
+    >
+      <el-table-column prop="title" label="搜索结果" />
+    </el-table>
+    <el-pagination
+      @size-change="handleSearchSizeChange"
+      @current-change="handleSearchCurrentChange"
+      :current-page="searchCurrentPage"
+      :page-size="searchPageSize"
+      layout="total, prev, pager, next"
+      :total="posts.length"
+      class="dark-souls-pagination"
+    ></el-pagination>
+    <notification-list v-if="userId"></notification-list>
           <el-button v-if="userId" @click="goToUserPosts" type="success" class="user-posts-button dark-souls-button"
-            >View Your Posts</el-button
-          >
+            >我的发布</el-button>
         </el-col>
       </el-row>
     </el-main>
@@ -146,7 +161,9 @@ export default {
       posts: [],
       categories: [],
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 8,
+      searchCurrentPage: 1,
+      searchPageSize: 3,
     };
   },
   computed: {
@@ -154,6 +171,11 @@ export default {
       const start = (this.currentPage - 1) * this.pageSize;
       const end = start + this.pageSize;
       return this.recommendedPosts.slice(start, end);
+    },
+    displayedPosts() {
+      const start = (this.searchCurrentPage - 1) * this.searchPageSize;
+      const end = start + this.searchPageSize;
+      return this.posts.slice(start, end);
     },
   },
   async mounted() {
@@ -213,7 +235,16 @@ export default {
     },
     handleCurrentChange(val) {
         this.currentPage = val;
-    }
+    },
+    handleSearchSizeChange(val) {
+      this.searchPageSize = val;
+    },
+    handleSearchCurrentChange(val) {
+      this.searchCurrentPage = val;
+    },
+      goToUserMsg() {
+    this.$router.push('/usermsg');
+  },
   },
 };
 </script>

@@ -12,6 +12,8 @@ import CategoryDetails from "../components/CategoryDetails.vue";
 import Home from "../views/Home.vue";
 import PostManagement from "@/views/PostManagement.vue";
 import EditPost from "@/views/EditPost.vue";
+import UserMsg from "@/views/UserMsg";
+import Statistic from "@/views/Statistic";
 
 const routes = [
   {
@@ -82,11 +84,21 @@ const routes = [
     component: EditPost,
     meta: { requiresAuth: true, isAdmin: true },
   },
+    {
+    path: "/usermsg",
+    name: "UserMsg",
+    component: UserMsg,
+  },
   {
   path: "/user/:userId/posts",
   name: "UserPosts",
   component: () =>
     import(/* webpackChunkName: "userPosts" */ "../views/UserPosts.vue"),
+  },
+  {
+    path: "/statistic",
+    name: "Statistic",
+    component: Statistic,
   },
 
 ];

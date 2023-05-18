@@ -8,7 +8,7 @@
           border
           @row-click="navigateToCategory"
         >
-          <el-table-column prop="name" label="Category Name" />
+          <el-table-column prop="name" label="板块名称" />
         </el-table>
       </el-col>
     </el-row>

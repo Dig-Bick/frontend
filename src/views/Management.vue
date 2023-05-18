@@ -3,7 +3,8 @@
     <div class="management-options">
       <router-link to="/management/user">User Management</router-link>
       <router-link to="/management/post">Post Management</router-link>
-  </div>
+      <router-link to="/statistic">Statistic</router-link>
+    </div>
     <h1>管理中心</h1>
     <el-row>
       <el-col :span="12">
@@ -17,6 +18,13 @@
         <el-card class="box-card" @click.native="$router.push('/management/post')">
           <div slot="header" class="clearfix">
             <span>贴子管理</span>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="12">
+        <el-card class="box-card" @click.native="$router.push('/statistic')">
+          <div slot="header" class="clearfix">
+            <span>统计</span>
           </div>
         </el-card>
       </el-col>

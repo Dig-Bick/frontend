@@ -1,19 +1,22 @@
-<!-- CommentItem.vue -->
 <template>
   <li>
     <div :style="{ marginLeft: depth * 20 + 'px' }">
       <strong>{{ comment.username }}</strong>: {{ comment.content }}
-      <button @click="showReplyForm(comment.commentId)">Reply</button>
+      <el-button type="primary" @click="showReplyForm(comment.commentId)" size="small">回复</el-button>
       <reply-form
         v-if="comment.commentId === replyFormCommentId"
         :postId="postId"
         :commentId="comment.commentId"
         @reply-created="onReplyCreated"
       ></reply-form>
-      <!-- CommentItem.vue -->
-      <button v-if="isOwnComment" @click="deleteComment(comment.commentId)">Delete</button>
-
-
+      <el-button
+        v-if="isOwnComment"
+        @click="deleteComment(comment.commentId)"
+        type="danger"
+        size="small"
+      >
+        删除
+      </el-button>
     </div>
     <ul v-if="comment.replies && comment.replies.length">
       <li v-for="reply in comment.replies" :key="reply.commentId">
@@ -68,8 +71,6 @@ export default {
         this.$message.error("Error deleting comment.");
       }
     },
-
-
   },
 };
 </script>

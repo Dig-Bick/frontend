@@ -1,14 +1,23 @@
 <template>
   <div class="dark-souls-container">
-    <h2>{{ post.title }}</h2>
-    <p>{{ post.content }}</p>
+    <el-card shadow="always">
+      <div slot="header" class="clearfix">
+         <span class="dark-souls-title">{{ post.title }}</span>
+      </div>
+      <h3></h3>
+      <div class="text item">
+        {{ post.content }}
+      </div>
+    </el-card>
+
     <div class="post-actions">
-      <button @click="toggleLike" class="dark-souls-like-button">
+      <el-button type="primary" @click="toggleLike" class="dark-souls-like-button">
         {{ isLiked ? '取消点赞' : '点赞' }}
-      </button>
+      </el-button>
       <span class="dark-souls-like-count">{{ likeCount }} 赞</span>
     </div>
-    <comment-section :postId="post.postId"></comment-section>
+
+    <comment-section :postId="post.postId" :showForm="true" />
   </div>
 </template>
 
@@ -81,7 +90,7 @@ export default {
 
 <style scoped>
 .dark-souls-container {
-  background-color: #111;
+  background-color: #635d5d;
   color: #fff;
   padding: 20px;
 }
@@ -102,5 +111,9 @@ export default {
 .dark-souls-like-count {
   color: #aaa;
   margin-left: 10px;
+}
+.dark-souls-title {
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 </style>

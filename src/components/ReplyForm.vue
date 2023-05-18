@@ -1,7 +1,7 @@
 <template>
   <div>
-    <textarea v-model="content" placeholder="Write a reply..."></textarea>
-    <button @click="submitReply">Submit</button>
+    <textarea v-model="content" placeholder="请输入回复内容"></textarea>
+    <el-button @click="submitReply">提交回复</el-button>
   </div>
 </template>
 

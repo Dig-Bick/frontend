@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Comments</h3>
+
     <div>
       <comment-item
         v-for="comment in comments"
@@ -12,17 +12,20 @@
         @comment-deleted="fetchComments"
       ></comment-item>
     </div>
-    <div class="comment-form">
-      <h4>Add a comment</h4>
-      <textarea v-model="newComment" rows="3"></textarea>
-      <button @click="submitComment">Submit</button>
+    <div class="comment-form" v-if="showForm">
+      <h4>添加评论</h4>
+      <el-input
+        type="textarea"
+        :rows="3"
+        placeholder="评论在这里添加"
+        v-model="newComment"
+        class="input-with-select"
+      ></el-input>
+      <el-button @click="submitComment" type="primary">提交</el-button>
     </div>
   </div>
 </template>
 
-
-
-// CommentSection.vue
 <script>
 import ReplyForm from "./ReplyForm.vue";
 import CommentItem from "./CommentItem.vue";
@@ -32,7 +35,7 @@ export default {
     ReplyForm,
     CommentItem,
   },
-  props: ["postId", "userId"],
+  props: ["postId", "userId", "showForm"],
   data() {
     return {
       comments: [],
@@ -104,13 +107,11 @@ export default {
 };
 </script>
 
-
-
 <style scoped>
 .comment-form {
   margin-top: 1rem;
 }
-  .reply {
-    margin-left: 2rem;
-  }
+.reply {
+  margin-left: 2rem;
+}
 </style>
