@@ -76,8 +76,9 @@ export default {
   },
   async created() {
     try {
+    const userId = localStorage.getItem("userId");
       const { data } = await this.$http.get(
-        `/api/posts/${this.$route.params.id}`
+        `/api/posts/${this.$route.params.id}`, { params: { userId:  userId} }
       );
       this.post = data;
       await this.fetchLikeStatusAndCount();
