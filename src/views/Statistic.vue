@@ -41,15 +41,30 @@
 export default {
   data() {
     return {
-      totalUsers: 5,
-      totalPosts: 14,
-      activeUsers: 5,
-      totalPageViews: 12,
+      totalUsers: 0,
+      totalPosts: 0,
+      activeUsers: 0,
+      totalPageViews: 0,
     };
+  },
+  methods: {
+    async fetchStatistics() {
+      try {
+        const response = await this.$http.get('/api/statistics');
+        this.totalUsers = response.data.totalUsers;
+        this.totalPosts = response.data.totalPosts;
+        this.activeUsers = response.data.activeUsers;
+        this.totalPageViews = response.data.totalPageViews;
+      } catch (error) {
+        console.error('Error fetching statistics:', error);
+      }
+    },
+  },
+  async created() {
+    await this.fetchStatistics();
   },
 };
 </script>
-
 <style scoped>
 .statistics-container {
   margin: 20px;

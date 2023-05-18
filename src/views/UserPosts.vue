@@ -4,11 +4,12 @@
     <div v-for="post in posts" :key="post.postId" class="post-item">
       <h3>{{ post.title }}</h3>
       <comment-section :postId="post.postId" :showForm="false" />
-      <el-button class="dark-theme-button">查看帖子详情</el-button>
+      <el-button class="dark-theme-button" @click="viewPostDetails(post.postId)">查看帖子详情</el-button>
       <el-button class="dark-theme-button" @click="deletePost(post.postId)">删除帖子</el-button>
     </div>
   </div>
 </template>
+
 <script>
 import CommentSection from "@/components/CommentSection.vue";
 
@@ -29,9 +30,7 @@ export default {
         this.$router.push("/");
       } else {
         try {
-          const response = await this.$http.get(
-            `/api/posts/user/${userId}/posts`
-          );
+          const response = await this.$http.get(`/api/posts/user/${userId}/posts`);
           this.posts = response.data;
         } catch (error) {
           console.error("Error fetching user posts:", error);
@@ -48,19 +47,23 @@ export default {
         this.$message.error("Error deleting post.");
       }
     },
+    viewPostDetails(postId) {
+      this.$router.push(`/posts/${postId}`);
+    },
   },
-async created() {
-  const userId = localStorage.getItem("userId");
-  console.log(userId);
-  if (!userId) {
-    this.$router.push("/");
-  } else {
-    this.userId = userId;
-    await this.fetchUserPosts();
-  }
-},
+  async created() {
+    const userId = localStorage.getItem("userId");
+    console.log(userId);
+    if (!userId) {
+      this.$router.push("/");
+    } else {
+      this.userId = userId;
+      await this.fetchUserPosts();
+    }
+  },
 };
 </script>
+
 <style scoped>
 .dark-theme {
   background-color: #524d4d;
