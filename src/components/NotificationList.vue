@@ -1,5 +1,5 @@
 <template>
-
+  <div>
     <div slot="header" class="dark-souls-card-header">
       <span class="dark-souls-card-title"></span>
     </div>
@@ -9,6 +9,20 @@
       class="dark-souls-table"
     >
       <el-table-column prop="message" label="我的消息" />
+      <el-table-column
+        width="80"
+        label="操作"
+        align="center">
+<template #default="{row}">
+  <el-popconfirm title="是否删除?" @confirm="deleteNotification(row.id)">
+    <template #reference>
+      <el-button type="danger" size="small" @click.prevent>
+        <el-icon name="delete"></el-icon> 删除
+      </el-button>
+    </template>
+  </el-popconfirm>
+</template>
+      </el-table-column>
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"
@@ -19,8 +33,9 @@
       :total="notifications.length"
       class="dark-souls-pagination"
     ></el-pagination>
-
+  </div>
 </template>
+
 
 <script>
 export default {
@@ -43,6 +58,7 @@ export default {
     const userId = localStorage.getItem("userId");
     try {
       const response = await this.$http.get(`/api/notifications/${userId}`);
+      console.log(response.data);
       this.notifications = response.data;
     } catch (error) {
       console.error("Error fetching notifications:", error);
@@ -55,6 +71,15 @@ export default {
     },
     handleCurrentChange(val) {
       this.currentPage = val;
+    },
+    async deleteNotification(id) {
+      try {
+        await this.$http.delete(`/api/notifications/delete/${id}`);
+        this.notifications = this.notifications.filter(n => n.id !== id);
+      } catch (error) {
+        console.error("Error deleting notification:", error);
+        this.$message.error("Error deleting notification.");
+      }
     },
   },
 };
@@ -73,15 +98,6 @@ export default {
 }
 
 .dark-souls-card-title {
-  color: #ffffff;
-}
-
-.dark-souls-table {
-  background-color: #444;
-  color: #000000;
-}
-
-.dark-souls-pagination {
-  margin-top: 20px;
+  color: #ffffff
 }
 </style>
