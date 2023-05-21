@@ -1,26 +1,32 @@
 <template>
-  <el-container class="dark-souls-container" direction="vertical">
-    <el-header class="dark-souls-header">
-      <h2 class="dark-souls-card-title">登录</h2>
-    </el-header>
-    <el-main>
-      <el-form :model="loginForm" label-width="120px" @submit.native.prevent="submitForm">
-        <el-form-item label="用户名">
-          <el-input v-model="loginForm.username" style="width: 200px;"></el-input>
-        </el-form-item>
-        <el-form-item label="密码">
-          <el-input v-model="loginForm.password" type="password" style="width: 200px;"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submitForm">登录</el-button>
-        </el-form-item>
-      </el-form>
-      <p class="register-link">
-        没有账号? <a @click="goToRegister">注册</a>
-      </p>
-    </el-main>
-  </el-container>
+  <div class="dark-souls-container">
+    <div class="logindata">
+      <div class="logo-wrapper">
+        <!-- Add your logo here -->
+         <img src="../assets/login.png" alt="cartoon-factory" />
+
+      </div>
+      <div class="form-wrapper">
+      <h2>登录</h2>
+        <el-form :model="loginForm" label-width="120px" @submit.native.prevent="submitForm">
+          <el-form-item label="用户名">
+            <el-input v-model="loginForm.username" clearable placeholder="请输入账号"></el-input>
+          </el-form-item>
+          <el-form-item label="密码">
+            <el-input v-model="loginForm.password" type="password" clearable placeholder="请输入密码" show-password></el-input>
+          </el-form-item>
+          <el-form-item>
+            <div class="butt-wrapper">
+              <el-button type="primary" @click="submitForm">登录</el-button>
+              <el-button  @click="goToRegister">注册</el-button>
+            </div>
+          </el-form-item>
+        </el-form>
+      </div>
+    </div>
+  </div>
 </template>
+
 
 <script>
 import { useRouter } from 'vue-router';
@@ -71,25 +77,75 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 .dark-souls-container {
-  background-color: #e0d3d3;
-  color: #ff0000;
+  width: 100%;
+  height: 100%;
+  min-width: 1000px;
+  background-image: linear-gradient(135deg, #ffe7bf 0%, #4b3201 100%);
+  background-position: center center;
+  overflow: auto;
+  background-repeat: no-repeat;
+  position: fixed;
+  line-height: 100%;
+  padding-top: 150px;
 }
 
-.dark-souls-header {
-  background-color: #222;
-  padding: 10px;
+.logindata {
+  width: 800px;
+  height: 380px;
+  background-color: rgba(212, 174, 120, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  transform: translate(-50%);
+  margin-left: 50%;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  display: flex;
 }
 
-.dark-souls-card-title {
-  color: #ffffff;
+.logo-wrapper {
+  width: 50%;
+  background-color: rgba(28, 10, 10, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.register-link {
-  color: rgba(75, 70, 70, 0.99);
+.logo-wrapper img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.form-wrapper{
+  width: 48%;
+  margin-top: 0px;
+  margin-left: 20px;
+}
+
+.logintext {
+  margin-bottom: 20px;
+  line-height: 50px;
   text-align: center;
-  margin-top: 20px;
+  font-size: 30px;
+  font-weight: bolder;
+  color: #333;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.el-form-item__label {
+  font-weight: bolder;
+  font-size: 15px;
+  text-align: left;
+}
+
+.butt-wrapper {
+  margin-top: 10px;
+}
+
+.el-button {
+  width: 100%;
+  margin-bottom: 10px;
 }
 </style>
+
+

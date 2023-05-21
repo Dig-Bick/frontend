@@ -197,6 +197,7 @@ export default {
         this.recommendedPosts = response.data;
       } catch (error) {
         console.error("Error fetching recommended posts: ", error);
+
       }
     },
     async fetchCategories() {

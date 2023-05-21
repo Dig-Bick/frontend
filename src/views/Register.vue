@@ -1,29 +1,36 @@
 <template>
-  <el-container class="dark-souls-container" direction="vertical">
-    <el-header class="dark-souls-header">
-      <h2 class="dark-souls-card-title">注册</h2>
-    </el-header>
-    <el-main>
-      <el-form ref="registerForm" :model="registerForm" label-width="120px" @submit.native.prevent="submitForm">
-        <el-form-item label="用户名">
-          <el-input v-model="registerForm.username" style="width: 200px;"></el-input>
-        </el-form-item>
-        <el-form-item label="密码">
-          <el-input type="password" v-model="registerForm.password" style="width: 200px;"></el-input>
-        </el-form-item>
-        <el-form-item label="确认密码">
-          <el-input type="password" v-model="registerForm.confirmPassword" style="width: 200px;"></el-input>
-        </el-form-item>
-        <el-form-item label="邮箱">
-          <el-input v-model="registerForm.email" style="width: 200px;"></el-input>
-        </el-form-item>
-        <el-form-item>
+  <div class="dark-souls-container">
+    <div class="logindata">
+      <div class="logo-wrapper">
+        <!-- Add your logo here -->
+         <img src="../assets/login.png" alt="cartoon-factory" />
+      </div>
+      <div class="form-wrapper">
+        <div class="logintext">
+          <h2>注册</h2>
+        </div>
+        <el-form ref="registerForm" :model="registerForm" :rules="rules">
+          <el-form-item prop="username">
+            <el-input v-model="registerForm.username" clearable placeholder="请输入用户名"></el-input>
+          </el-form-item>
+          <el-form-item prop="password">
+            <el-input type="password" v-model="registerForm.password" clearable placeholder="请输入密码" show-password></el-input>
+          </el-form-item>
+          <el-form-item prop="confirmPassword">
+            <el-input type="password" v-model="registerForm.confirmPassword" clearable placeholder="请确认密码" show-password></el-input>
+          </el-form-item>
+          <el-form-item prop="email">
+            <el-input v-model="registerForm.email" clearable placeholder="请输入邮箱"></el-input>
+          </el-form-item>
+        </el-form>
+        <div class="butt-wrapper">
           <el-button type="primary" @click="submitForm">注册</el-button>
           <el-button @click="goToLogin">登录</el-button>
-        </el-form-item>
-      </el-form>
-    </el-main>
-  </el-container>
+        </div>
+      </div>
+    </div>
+    <div class="logo-background"></div>
+  </div>
 </template>
 
 <script>
@@ -74,16 +81,72 @@ export default {
 
 <style scoped>
 .dark-souls-container {
-  background-color: #e0d3d3;
-  color: #ff0000;
+  width: 100%;
+  height: 100%;
+  min-width: 1000px;
+  background-image: linear-gradient(135deg, #ffe7bf 0%, #4b3201 100%);
+  background-position: center center;
+  overflow: auto;
+  background-repeat: no-repeat;
+  position: fixed;
+  line-height: 100%;
+  padding-top: 150px;
 }
 
-.dark-souls-header {
-  background-color: #222;
-  padding: 10px;
+.logindata {
+  width: 800px;
+  height: 380px;
+  background-color: rgba(144, 138, 86, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  transform: translate(-50%);
+  margin-left: 50%;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  display: flex;
 }
 
-.dark-souls-card-title {
-  color: #ffffff;
+.logo-wrapper {
+  width: 50%;
+  background-color: #f7f7f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-wrapper img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.form-wrapper{
+  width: 48%;
+  margin-top: 0px;
+  margin-left: 20px;
+}
+
+.logintext {
+  margin-bottom: 20px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bolder;
+  color: #333;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.el-form-item__label {
+  font-weight: bolder;
+  font-size: 15px;
+  text-align: left;
+}
+
+.butt-wrapper {
+  margin-top: 10px;
+}
+
+.el-button {
+  width: 100%;
+  margin-bottom: 10px;
 }
 </style>
+
