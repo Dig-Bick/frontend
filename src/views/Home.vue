@@ -179,20 +179,32 @@ export default {
     },
   },
   async mounted() {
-    if (this.$store.state.userId && this.$store.state.token) {
-      console.log('Fetching recommended posts...');
-      await this.fetchRecommendedPosts();
-      await this.fetchCategories();
-    } else {
-      console.log('User not logged in, not fetching recommended posts.');
-    }
-  },
+  // Get user information from localStorage
+  const userId = localStorage.getItem('userId');
+  const token = localStorage.getItem('token');
+
+  // Check if the user information exists
+  if (userId && token) {
+    // Save user information to the Vue instance's data properties
+    this.userId = userId;
+    this.token = token;
+
+    console.log('Fetching recommended posts...');
+    await this.fetchRecommendedPosts();
+    await this.fetchCategories();
+  } else {
+    console.log('User not logged in, not fetching recommended posts.');
+  }
+}
+,
   methods: {
     async fetchRecommendedPosts() {
+    const userId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
       try {
         const response = await this.$http.get("/api/posts/recommended", {
-          params: { userId: this.$store.state.userId },
-          headers: { Authorization: "Bearer " + this.$store.state.token },
+          params: { userId: userId },
+          headers: { Authorization: "Bearer " + token },
         });
         this.recommendedPosts = response.data;
       } catch (error) {
